@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions
 from posts.models import Post, Group
 from django.shortcuts import get_object_or_404
-
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer, GroupSerializer, CommentSerializer
 
@@ -17,7 +17,7 @@ class IsAuthorOrReadOnly(permissions.BasePermission):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = (IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)

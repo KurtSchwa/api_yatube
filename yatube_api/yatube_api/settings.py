@@ -131,7 +131,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
-    # ИСПРАВЬТЕ ЭТУ СТРОКУ: ДОЛЖЕН БЫТЬ IsAuthenticatedOrReadOnly
+    # ЭТО КЛЮЧЕВАЯ СТРОКА: разрешает чтение всем, запись/изменение - только авторизованным
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticatedOrReadOnly',
     ],
