@@ -1,18 +1,16 @@
-# api/permissions.py
+# api/permissions.py (Упрощенный и правильный вариант)
 
 from rest_framework import permissions
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):
-    """
-    Разрешает редактирование только автору объекта.
-    Для остальных — только чтение.
-    """
+
+    # Мы полагаемся на ГЛОБАЛЬНОЕ IsAuthenticatedOrReadOnly для разрешения ЧТЕНИЯ всем.
+    # Поэтому мы проверяем ТОЛЬКО права на ИЗМЕНЕНИЕ/УДАЛЕНИЕ конкретного объекта.
 
     def has_object_permission(self, request, view, obj):
-        # Разрешаем GET, HEAD, OPTIONS запросы всем
+        # Разрешает доступ для GET, HEAD или OPTIONS (SAFE_METHODS)
         if request.method in permissions.SAFE_METHODS:
             return True
-
-        # Разрешаем PUT, PATCH, DELETE только автору
+        # Разрешает запись: только автор может редактировать/удалять.
         return obj.author == request.user

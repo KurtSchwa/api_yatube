@@ -1,17 +1,8 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets
 from posts.models import Post, Group
 from django.shortcuts import get_object_or_404
 from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer, GroupSerializer, CommentSerializer
-
-
-class IsAuthorOrReadOnly(permissions.BasePermission):
-
-    def has_object_permission(self, request, view, obj):
-        if request.method in permissions.SAFE_METHODS:
-            return True
-        return obj.author == request.user
-
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
